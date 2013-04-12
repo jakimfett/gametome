@@ -9,7 +9,7 @@ setup(
     name='gametome',
     version = '0.1.0',
     description='Project for gametome',
-    long_description=open('README.rst', 'rt').read(),
+    long_description=open('README.md', 'rt').read(),
     author='',
     author_email='',
     url='',
