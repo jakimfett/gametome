@@ -3,9 +3,9 @@ gametome
 
 Repo for the Linux Game Tome project, working towards the resurrection of happypenguin.org
 
-Join the discussion on the forum at [http://happypenguin.onkoistudios.com/][http://happypenguin.onkoistudios.com/], or on the freenode IRC at #gametome (or via the [web client][http://webchat.freenode.net/?channels=gametome&uio=d4]).
+Join the discussion on the forum at [http://happypenguin.onkoistudios.com/](http://happypenguin.onkoistudios.com/), or on the freenode IRC at #gametome (or via the [web client](http://webchat.freenode.net/?channels=gametome&uio=d4) ).
 
-The database dump can be downloaded from [http://happypenguin.onkoistudios.com/uploads/happypenguin_dump.tar.bz2][http://happypenguin.onkoistudios.com/uploads/happypenguin_dump.tar.bz2]
+The database dump can be downloaded from [http://happypenguin.onkoistudios.com/uploads/happypenguin_dump.tar.bz2](http://happypenguin.onkoistudios.com/uploads/happypenguin_dump.tar.bz2)
 
 grigis attempt
 --------------
@@ -35,4 +35,8 @@ To get the initial data:
 2. Untar it to some handy location (I untarred it to ./data, so that there exists a directory ./data/screenshots)
 3. Download grigi's de-normalized JSON version of the DB. Unzip it to the same location. [GET IT HERE](http://happypenguin.onkoistudios.com/discussion/5/de-normalized-db#Item_2)
 
+To get started:
+1. `./manage.py syncdb` - default dev config uses a local sqlite database
+2. `./manage.py importhp`
+3. `./manage.py runserver`
 
