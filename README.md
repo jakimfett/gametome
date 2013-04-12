@@ -32,11 +32,19 @@ What still needs to be done:
 
 To get the initial data:
 1. Download bobz's database dump archive ~400 MB 
+
 2. Untar it to some handy location (I untarred it to ./data, so that there exists a directory ./data/screenshots)
+
 3. Download grigi's de-normalized JSON version of the DB. Unzip it to the same location. [GET IT HERE](http://happypenguin.onkoistudios.com/discussion/5/de-normalized-db#Item_2)
 
 To get started:
-1. `./manage.py syncdb` - default dev config uses a local sqlite database
-2. `./manage.py importhp`
-3. `./manage.py runserver`
+1. Setup a python environment (preferably a virtualenv)
+
+2. `pip install django-ckeditor django-taggit django-allauth` - install requirements
+
+3. `./manage.py syncdb` - default dev config uses a local sqlite database
+
+4. `./manage.py importhp` - import the legacy data
+
+5. `./manage.py runserver` - development server
 
