@@ -5,6 +5,11 @@ from gtdb.models import Entity, Game, News, Comment, Review, URLlink
 import json
 from django.db import transaction
 import sys
+import re
+import html5lib
+from html5lib import sanitizer
+
+sanhtml = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
 
 #IMP_DATE = '2013-04-01T00:00:00+00:00'
 
@@ -27,7 +32,7 @@ def sub_comments(game,parent,dic):
         com = Comment.objects.create(
             created_date = l['timestamp'],
             updated_date = l['timestamp'],
-            description = l['comment'],
+            description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
             entity = parent,
             title = l['subject'],
             reporter = l['user'],
@@ -57,7 +62,7 @@ class Command(BaseCommand):
         turn_off_auto_now_add(Comment, 'created_date')'''
         
         doc = json.load(open('%s/data/games.json' % (settings.PROJECT_ROOT)))
-        for g in doc[:200]:
+        for g in doc[:20]:
             #print(json.dumps(g,indent=4,sort_keys=True))
             
             # Not handling: screenshot, other, approved_by, approved_date, author, company
@@ -73,14 +78,15 @@ class Command(BaseCommand):
                 version = g['version'],
             )
             for c in g['capabilities']:
-                game.tags.add('cap:%s' % (c))
-            game.tags.add('lic:%s' % (g['license']))
+                game.tags.add(c)
+            if g['license'] != 'unknown':
+                game.tags.add(g['license'])
             
             for l in g['comments']:
                 com = Comment.objects.create(
                     created_date = l['timestamp'],
                     updated_date = l['timestamp'],
-                    description = l['comment'],
+                    description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
                     entity = game,
                     title = l['subject'],
                     reporter = l['user']
@@ -117,24 +123,41 @@ class Command(BaseCommand):
                 transaction.commit()
                 
         doc = json.load(open('%s/data/news.json' % (settings.PROJECT_ROOT)))
-        for n in doc[:200]:
+        for n in doc[:20]:
             #print(json.dumps(n,indent=4,sort_keys=True))
             
             # Not handling: game
+
+            desc = n['news']
+            try:
+                cat = re.search(r'<em>Category: </em>([^<]*)<br>', desc).group(1)
+            except:
+                cat = None
+            try:
+                short =  re.search(r'<em>Description:</em> (.*)', desc).group(1)
+            except:
+                short = None
+            
+            desc = re.sub(r'^<a href.*Category:.*Rating.*Description[^\n]*', '', desc, flags=re.MULTILINE|re.DOTALL)
+            desc = sanhtml.parse(desc).toxml()[19:][:-14]
             
             news = News.objects.create(
                 title=n['headline'],
-                description=n['news'],
+                description=desc,
+                short=short,
                 reporter=n['user'],
                 created_date = n['timestamp'],
                 updated_date = n['timestamp']
             )
-            news.tags.add('cat:%s' % (n['newstype']))
+            if n['newstype'] != 'default':
+                news.tags.add(n['newstype'])
+            if cat:
+                news.tags.add(cat)
             for l in n['comments']:
                 com = Comment.objects.create(
                     created_date = l['timestamp'],
                     updated_date = l['timestamp'],
-                    description = l['comment'],
+                    description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
                     entity = news,
                     title = l['subject'],
                     reporter = l['user']
