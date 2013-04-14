@@ -54,7 +54,7 @@ class CompanyAdmin(EntityAdmin):
     list_filter = []
     
     def queryset(self, request):
-        ct = ContentType.objects.get(model='news')
+        ct = ContentType.objects.get(model='company')
         qs = super(EntityAdmin, self).queryset(request)
         return qs.filter(content_type=ct)
     
