@@ -33,7 +33,7 @@ What currently works:
         * headline,news,user,timestamp
         * extract category and short description from html blob
         * removed category/description/rating from html blob
-        * run news through HTMl sanitizer
+        * run news through HTML sanitizer
         * newstype and category imported as tags
     * Not Handling:
         * link to game
@@ -42,6 +42,7 @@ What currently works:
         * subjext, comment, user, timestamp
         * comment is run through an HTML sanitizer
         * sub-comments
+        * Removing empty comments, and attaching children to parent
     * Not Handling:
         * spam detection
 
