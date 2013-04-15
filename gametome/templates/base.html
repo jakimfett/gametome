@@ -70,15 +70,17 @@
 </div>
 {% endif %}
   	
-{% block body %}
 <br/>
 <div role="main">
   	<div class="row-fluid">
-      	<div class="span8 offset2 hero-unit">{% block content %}{% endblock %}</div>
-	</div>
+  		<div class="span8 offset2">
+			{% block body %}
+	      	<div class="hero-unit">{% block content %}{% endblock %}</div>
+			{% endblock %}
+  		</div>
 </div>
-{% endblock %}
-{% block extra_budy %}{% endblock %}
+</div>
+{% block extra_body %}{% endblock %}
 
 <script src="{{ STATIC_URL }}js/libs/jquery-1.7.2.min.js"></script>
 <script src="{{ STATIC_URL }}js/plugins.js"></script>

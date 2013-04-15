@@ -29,16 +29,20 @@ def turn_off_auto_now_add(Clazz, field_name):
 
 def sub_comments(game,parent,dic):
     for l in dic:
-        com = Comment.objects.create(
-            created_date = l['timestamp'],
-            updated_date = l['timestamp'],
-            description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
-            entity = parent,
-            title = l['subject'],
-            reporter = l['user'],
-            #parent = parent
-        )
-        sub_comments(game, com, l['comments'])        
+        desc = sanhtml.parse(l['comment']).toxml()[19:][:-14]
+        if len(desc) > 0:
+            com = Comment.objects.create(
+                created_date = l['timestamp'],
+                updated_date = l['timestamp'],
+                description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
+                entity = parent,
+                title = l['subject'],
+                reporter = l['user'],
+                #parent = parent
+            )
+            sub_comments(game, com, l['comments'])
+        else:
+            sub_comments(game, parent, l['comments'])
 
 #User.objects.get_or_create(username=username)
 
@@ -62,7 +66,7 @@ class Command(BaseCommand):
         turn_off_auto_now_add(Comment, 'created_date')'''
         
         doc = json.load(open('%s/data/games.json' % (settings.PROJECT_ROOT)))
-        for g in doc[:20]:
+        for g in doc[:200]:
             #print(json.dumps(g,indent=4,sort_keys=True))
             
             # Not handling: screenshot, other, approved_by, approved_date, author, company
@@ -83,15 +87,19 @@ class Command(BaseCommand):
                 game.tags.add(g['license'])
             
             for l in g['comments']:
-                com = Comment.objects.create(
-                    created_date = l['timestamp'],
-                    updated_date = l['timestamp'],
-                    description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
-                    entity = game,
-                    title = l['subject'],
-                    reporter = l['user']
-                )
-                sub_comments(game, com, l['comments'])
+                desc = sanhtml.parse(l['comment']).toxml()[19:][:-14]
+                if len(desc) > 0:
+                    com = Comment.objects.create(
+                        created_date = l['timestamp'],
+                        updated_date = l['timestamp'],
+                        description = desc,
+                        entity = game,
+                        title = l['subject'],
+                        reporter = l['user']
+                    )
+                    sub_comments(game, com, l['comments'])
+                else:
+                    sub_comments(game, game, l['comments'])
         
             for r in g['ratings']:
                 rate = Review.objects.create(
@@ -123,7 +131,7 @@ class Command(BaseCommand):
                 transaction.commit()
                 
         doc = json.load(open('%s/data/news.json' % (settings.PROJECT_ROOT)))
-        for n in doc[:20]:
+        for n in doc[:200]:
             #print(json.dumps(n,indent=4,sort_keys=True))
             
             # Not handling: game
@@ -154,15 +162,19 @@ class Command(BaseCommand):
             if cat:
                 news.tags.add(cat)
             for l in n['comments']:
-                com = Comment.objects.create(
-                    created_date = l['timestamp'],
-                    updated_date = l['timestamp'],
-                    description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
-                    entity = news,
-                    title = l['subject'],
-                    reporter = l['user']
-                )
-                sub_comments(news, com, l['comments'])
+                desc = sanhtml.parse(l['comment']).toxml()[19:][:-14]
+                if len(desc) > 0:
+                    com = Comment.objects.create(
+                        created_date = l['timestamp'],
+                        updated_date = l['timestamp'],
+                        description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
+                        entity = news,
+                        title = l['subject'],
+                        reporter = l['user']
+                    )
+                    sub_comments(news, com, l['comments'])
+                else:
+                    sub_comments(news, news, l['comments'])
 
             count = count+1
             if count==100:

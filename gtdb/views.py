@@ -4,7 +4,10 @@ from models import *
 # Create your views here.
 
 def games(request):
-    return render(request, 'games.html', {})
+    games_list = Game.objects.all().order_by('-created_date').prefetch_related('comments')
+    return render(request, 'games.html', {
+        'games_list': games_list[:20],
+    })
 
 def index(request):
     ct = ContentType.objects.get(model='news')

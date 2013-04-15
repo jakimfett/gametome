@@ -2,40 +2,41 @@
 
 {% block head_title %}HP-TLGT{% endblock %}
 
-{% block content %}
-<h1>News</h1>
+{% block body %}
+<h1 align="center">News</h1>
 
 {% for news in news_list %}
-<div>
-	<div class="navbar">
-		<div class="navbar-inner">
-			<div class="container pull-left">
-			<h2 style="padding: 0px;">{{ news.title }}</h2>
-			{% if news.short %}{{ news.short }}{% endif %}
-			</div>
-			<div class="container pull-right">
-				<small>By {{ news.reporter }} on {{ news.created_date }}</small>
-				<br/>
-				<div align="right">
-					<small>rating</small>
-				</div>
-			</div>
-		</div>
-	<p class="pull-right" style="padding: 0px;margin: 0px;">
+<div class="navbar navbar-inverse" style="color: lightgray; margin: 0px;">
+	<div class="navbar-inner">
+		<div class="container pull-right"><small>
+			By {{ news.reporter }} on {{ news.created_date }}
+			<br/>
+			<div align="right">rating</div>
+		</small></div>
+		<h2 style="margin: 10px 10px 10px 0px; color: white;">{{ news.title }}</h2>
+		{% if news.short %}{{ news.short }}{% endif %}
+	</div>
+	<p class="pull-right" style="padding: 0px; margin: 0px;">
 	{% for tag in news.tags.all %}
 		<span class="label">{{tag}}</span>
 	{% endfor %}
 	</p>
-	</div>
-	{{ news.description | safe }}
-	{% for comment in news.comments.all %}
-	<div class="well">
-		<h3>{{ comment.title }}</h3>
-		{% if comment.short %}<h4>{{ comment.short }}</h4>{% endif %}
-		{{ comment.description | safe }}
-	</div>
-	{% endfor %}
 </div>
+{{ news.description | safe }}
+
+{% for comment in news.comments.all %}
+<div class="well" style="margin-left: 10px; padding: 10px;">
+	<div class="pull-right">
+		<small>By {{ comment.reporter }} on {{ comment.created_date }}</small>
+		<br/>
+		<div align="right">
+			<small>rating</small>
+		</div>
+	</div>
+	<h3 style="margin: 0px;">{{ comment.title }}</h3>
+	{{ comment.description | safe }}
+</div>
+{% endfor %}
 {% endfor %}
 
 {% endblock %}

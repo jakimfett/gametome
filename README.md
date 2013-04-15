@@ -17,12 +17,12 @@ What currently works:
 * Registering/validating EMail/using federated/social auth/associating to multiple accounts
 * Basic Bootstrap interface
 * A working rich text editor
-* Import of legact Game records:
+* Import of legacy Game records:
     * Handling:
         * title, description, shortdescription, submittedby, createddate, updateddate, cost, version
         * Licence and capabilities is imported as tags
         * description is run through an HTML sanitizer
-        * ratings are imported as reviews with no body (Not sure about this, should reviews and ratings be separate entities, or ratings ae reviews?)
+        * ratings are imported as reviews with no body _(Not sure about this, should reviews and ratings be separate entities, or ratings as reviews?)_
     * Not Handling:
         * Image importing
         * approvals
@@ -77,5 +77,4 @@ Code-level priorities for the project:
 * Dependancies should work in Python3 or have a in-progress plan to migrate to it
 * Code should be kept as simple as possible, and have a reasonable amount of tests
 * Care should be taken to keep an eye on performance
-
 

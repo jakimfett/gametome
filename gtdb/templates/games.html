@@ -2,8 +2,41 @@
 
 {% block head_title %}Games{% endblock %}
 
-{% block content %}
-<h1>Games</h1>
+{% block body %}
+<h1 align="center">Games</h1>
 
-<p>Welcome</p>
+{% for game in games_list %}
+<div class="navbar navbar-inverse" style="color: lightgray;">
+	<div class="navbar-inner">
+		<div class="container pull-right"><small>
+			By {{ game.reporter }} on {{ game.created_date }}
+			<br/>
+			<div align="right">rating</div>
+		</small></div>
+		<h2 style="margin: 10px 10px 10px 0px; color: white;">{{ game.title }}</h2>
+		{% if game.short %}{{ game.short }}{% endif %}
+	</div>
+	<p class="pull-right" style="padding: 0px; margin: 0px;">
+	{% for tag in game.tags.all %}
+		<span class="label">{{tag}}</span>
+	{% endfor %}
+	</p>
+</div>
+{{ game.description | safe }}
+
+{% for comment in game.comments.all %}
+<div class="well" style="margin-left: 10px; padding: 10px;">
+	<div class="pull-right">
+		<small>By {{ comment.reporter }} on {{ comment.created_date }}</small>
+		<br/>
+		<div align="right">
+			<small>rating</small>
+		</div>
+	</div>
+	<h3 style="margin: 0px">{{ comment.title }}</h3>
+	{{ comment.description | safe }}
+</div>
+{% endfor %}
+{% endfor %}
+
 {% endblock %}
