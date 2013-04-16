@@ -21,7 +21,7 @@ execfile(activate_this, dict(__file__=activate_this))
 
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gametome.settings.prod")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gametome.settings.test")
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION

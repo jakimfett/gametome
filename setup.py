@@ -21,6 +21,7 @@ setup(
         'django-ckeditor >=4.0',
         'django-taggit',
         'django-allauth >=0.10',
+        'html5lib',
     ],
     dependency_links = [
     ],
