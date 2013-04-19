@@ -14,8 +14,12 @@ For this I tried to focus on a more basic version. It uses Bootstrap so I want t
 
 What currently works:
 
-* Registering/validating EMail/using federated/social auth/associating to multiple accounts
+* Registering/validating EMail/using federated/social auth/associating to multiple accounts (currently only google)
 * Basic Bootstrap interface
+    * Basic theme based on michaelb's work:
+    * [Pallet (chosen because of "retro" colors)](http://www.colourlovers.com/palette/53698/Its_a_Virtue)
+    * [Bootstrap theme (from above color scheme)](http://www.stylebootstrap.info/index.php?style=VMxlFu6B86U54mbXKRjho)
+    * A work in progress
 * A working rich text editor
 * Import of legacy Game records:
     * Handling:
@@ -45,7 +49,10 @@ What currently works:
         * Removing empty comments, and attaching children to parent
     * Not Handling:
         * spam detection
-* Implementing Game & News pages and comments (not rendering threaded yet)
+* Implementing Game & News pages and comments (not rendering threaded yet, or counting threaded comments yet either)
+* Fulltext search
+    * Using Haystack
+    * Plan to use a proper indexer, such as Solr or Xapian
 
 What still needs to be done:
 
@@ -53,11 +60,10 @@ What still needs to be done:
 * RichText, sanitized, entry system
 * Content rating system (to combat trolling)
 * Spam detection
-* Fulltext search (plan to use Haystack and Woosh)
 * I18N and L10N
 * Live data editing for your own content (or if you got given proxy rights) to make maintaining data easier
 * Author/Company page
-* A proper theme
+* Finishing the theme
 * Usability testing
 
 To get the initial data:
