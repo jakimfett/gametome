@@ -5,7 +5,7 @@ from taggit.managers import TaggableManager
 from django.contrib.contenttypes.models import ContentType
 from haystack.indexes import *
 from haystack import site
-import datetime
+from django.utils.timezone import now
 #from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
 
 # Create your models here.
@@ -20,10 +20,6 @@ class Entity(models.Model):
     content_type = models.ForeignKey(ContentType)
     
     tags = TaggableManager()
-    
-    @property
-    def content(self):
-        return "%s\n%s\n%s" % (self.title, self.short, self.description)
 
     def get_real(self):
         return self.content_type.model_class().objects.get(pk=self.pk)
@@ -54,19 +50,21 @@ class URLlink(models.Model):
 
 class Comment(Entity):
     entity = models.ForeignKey(Entity, related_name='comments')
+    parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
 
 class News(Entity):
-    #class Meta:
-    #    proxy = True
+    class Meta:
+        proxy = True
     
     def get_absolute_url(self):
         return "/news/%d/" % (self.pk)
 class NewsIndex(SearchIndex):
-    text = CharField(document=True)#, use_template=True)
+    text = CharField(document=True, use_template=True)
 
     def index_queryset(self):
         """Used when the entire index for model is updated."""
-        return News.objects.filter(updated_date__lte=datetime.datetime.now())
+        ct = ContentType.objects.get(model='news')
+        return News.objects.filter(content_type=ct, updated_date__lte=now())
 site.register(News, NewsIndex)
 
 class Game(Entity):
@@ -76,11 +74,11 @@ class Game(Entity):
     def get_absolute_url(self):
         return "/games/%d/" % (self.pk)
 class GameIndex(SearchIndex):
-    text = CharField(document=True)#, use_template=True)
+    text = CharField(document=True, use_template=True)
 
     def index_queryset(self):
         """Used when the entire index for model is updated."""
-        return Game.objects.filter(updated_date__lte=datetime.datetime.now())
+        return Game.objects.filter(updated_date__lte=now())
 site.register(Game, GameIndex)
 
 class Review(Entity):
@@ -88,9 +86,18 @@ class Review(Entity):
     score = models.IntegerField()
 
 class Company(Entity):
-    #class Meta:
-    #    proxy = True
-    pass
+    class Meta:
+        proxy = True
 
+    def get_absolute_url(self):
+        return "/company/%d/" % (self.pk)
+class CompanyIndex(SearchIndex):
+    text = CharField(document=True, use_template=True)
+
+    def index_queryset(self):
+        """Used when the entire index for model is updated."""
+        ct = ContentType.objects.get(model='company')
+        return Company.objects.filter(content_type=ct, updated_date__lte=now())
+site.register(Company, CompanyIndex)
 
     

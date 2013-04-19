@@ -49,3 +49,6 @@ local_settings.py
 #Pycache
 __pycache__
 data
+
+# Whoosh
+whoosh_index
