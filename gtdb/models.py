@@ -3,9 +3,6 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 from django.contrib.contenttypes.models import ContentType
-from haystack.indexes import *
-from haystack import site
-from django.utils.timezone import now
 #from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
 
 # Create your models here.
@@ -58,14 +55,6 @@ class News(Entity):
     
     def get_absolute_url(self):
         return "/news/%d/" % (self.pk)
-class NewsIndex(SearchIndex):
-    text = CharField(document=True, use_template=True)
-
-    def index_queryset(self):
-        """Used when the entire index for model is updated."""
-        ct = ContentType.objects.get(model='news')
-        return News.objects.filter(content_type=ct, updated_date__lte=now())
-site.register(News, NewsIndex)
 
 class Game(Entity):
     cost = models.CharField(max_length=255)
@@ -73,13 +62,6 @@ class Game(Entity):
 
     def get_absolute_url(self):
         return "/games/%d/" % (self.pk)
-class GameIndex(SearchIndex):
-    text = CharField(document=True, use_template=True)
-
-    def index_queryset(self):
-        """Used when the entire index for model is updated."""
-        return Game.objects.filter(updated_date__lte=now())
-site.register(Game, GameIndex)
 
 class Review(Entity):
     entity = models.ForeignKey(Entity, related_name='reviews')
@@ -91,13 +73,6 @@ class Company(Entity):
 
     def get_absolute_url(self):
         return "/company/%d/" % (self.pk)
-class CompanyIndex(SearchIndex):
-    text = CharField(document=True, use_template=True)
 
-    def index_queryset(self):
-        """Used when the entire index for model is updated."""
-        ct = ContentType.objects.get(model='company')
-        return Company.objects.filter(content_type=ct, updated_date__lte=now())
-site.register(Company, CompanyIndex)
 
     
