@@ -1,17 +1,30 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.contrib.auth.models import User
-from gtdb.models import Entity, Game, News, Comment, Review, URLlink
+from gtdb.models import Entity, Game, News, Comment, Review, URLlink, Company
 import json
 from django.db import transaction
 import sys
 import re
 import html5lib
 from html5lib import sanitizer
+from django.utils.timezone import now
 
 sanhtml = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
 
 #IMP_DATE = '2013-04-01T00:00:00+00:00'
+
+def user_factory(username):
+    if username is None:
+        username = 'Unknown'
+    (user, created) = User.objects.get_or_create(username=username)
+    return user
+
+def company_factory(compname):
+    if compname is None:
+        return None
+    (company, created) = Company.objects.get_or_create(title=compname, defaults={'created_date': now(), 'updated_date': now()})
+    return company    
 
 def iter_fields_and_do(Clazz, field_name, func):
     for field in Clazz._meta.local_fields:
@@ -37,7 +50,7 @@ def sub_comments(game,parent,dic):
                 description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
                 entity = parent,
                 title = l['subject'],
-                reporter = l['user'],
+                reporter = user_factory(l['user']),
                 #parent = parent
             )
             sub_comments(game, com, l['comments'])
@@ -75,7 +88,7 @@ class Command(BaseCommand):
                 title=g['title'],
                 description=g['description'],
                 short=g['short_description'],
-                reporter=g['submitted_by'],
+                reporter=user_factory(g['submitted_by']),
                 created_date = '%sT00:00:00+00:00' % (g['date_sumbitted']),
                 updated_date = g['timestamp'] if g['timestamp'] else '%sT00:00:00+00:00' % (g['date_sumbitted']),
                 cost = g['cost'],
@@ -95,7 +108,7 @@ class Command(BaseCommand):
                         description = desc,
                         entity = game,
                         title = l['subject'],
-                        reporter = l['user']
+                        reporter = user_factory(l['user'])
                     )
                     sub_comments(game, com, l['comments'])
                 else:
@@ -107,7 +120,7 @@ class Command(BaseCommand):
                     updated_date = l['timestamp'],
                     entity=game,
                     title=g['title'],
-                    reporter=r['user'],
+                    reporter=user_factory(r['user']),
                     score=r['rating']
                 )
             for u in g['urls']:
@@ -153,7 +166,7 @@ class Command(BaseCommand):
                 title=n['headline'],
                 description=desc,
                 short=short,
-                reporter=n['user'],
+                reporter=user_factory(n['user']),
                 created_date = n['timestamp'],
                 updated_date = n['timestamp']
             )
@@ -170,7 +183,7 @@ class Command(BaseCommand):
                         description = sanhtml.parse(l['comment']).toxml()[19:][:-14],
                         entity = news,
                         title = l['subject'],
-                        reporter = l['user']
+                        reporter = user_factory(l['user'])
                     )
                     sub_comments(news, com, l['comments'])
                 else:

@@ -45,6 +45,7 @@ default.db-journal
 
 # local_settings.py
 local_settings.py
+gtdb/fixtures/
 
 #Pycache
 __pycache__

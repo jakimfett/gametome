@@ -1,12 +1,12 @@
 {{ object.title }}
 {{ object.short }}
 {{ object.description | safe}}
-{{ object.reporter }}
+{{ object.reporter.name }}
 {{ object.created_date }}
 {% for tag in object.tags.all %} {{tag}}{% endfor %}
 {% for comment in object.comments.all %}
 {{ comment.title }}
 {{ comment.description | safe }}
-{{ comment.reporter }}
+{{ comment.reporter.name }}
 {{ comment.created_date }}
 {% endfor %}

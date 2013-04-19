@@ -5,6 +5,14 @@ from taggit.managers import TaggableManager
 from django.contrib.contenttypes.models import ContentType
 #from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
 
+# Monkey-patching the User object
+@property
+def prettyname(self):
+    if self.get_full_name():
+        return self.get_full_name()
+    return self.username 
+User.name = prettyname
+
 # Create your models here.
 @python_2_unicode_compatible
 class Entity(models.Model):
@@ -13,7 +21,7 @@ class Entity(models.Model):
     description = models.TextField(null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True, blank=True)
     updated_date = models.DateTimeField(auto_now=True, blank=True)
-    reporter = models.CharField(max_length=50, null=True, blank=True)
+    reporter = models.ForeignKey(User)
     content_type = models.ForeignKey(ContentType)
     
     tags = TaggableManager()
