@@ -4,14 +4,14 @@
 
 {% block body %}
 
-<div class="navbar navbar-inverse" style="color: lightgray; margin: 0px;">
+<div class="navbar">
 	<div class="navbar-inner">
 		<div class="container pull-right"><small>
 			By {{ game.reporter }} on {{ game.created_date }}
 			<br/>
 			<div align="right">rating</div>
 		</small></div>
-		<h2 style="margin: 10px 10px 10px 0px; color: white;">{{ game.title }}</h2>
+		<h2 style="margin: 10px 10px 10px 0px;">{{ game.title }}</h2>
 		{% if game.short %}{{ game.short }}{% endif %}
 	</div>
 	<p class="pull-right" style="padding: 0px; margin: 0px;">

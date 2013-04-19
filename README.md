@@ -45,11 +45,12 @@ What currently works:
         * Removing empty comments, and attaching children to parent
     * Not Handling:
         * spam detection
+* Implementing Game & News pages and comments (not rendering threaded yet)
 
 What still needs to be done:
 
-* Implementing Game & News pages and threaded comments
-* Sanitized rich-text entry system
+* Threaded comments
+* RichText, sanitized, entry system
 * Content rating system (to combat trolling)
 * Spam detection
 * Fulltext search (plan to use Haystack and Woosh)

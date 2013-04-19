@@ -6,14 +6,14 @@
 <h1 align="center">News</h1>
 
 {% for news in news_list %}
-<div class="navbar navbar-inverse" style="color: lightgray; margin: 0px;">
+<div class="navbar">
 	<div class="navbar-inner">
 		<div class="container pull-right"><small>
 			By {{ news.reporter }} on {{ news.created_date }}
 			<br/>
 			<div align="right">rating</div>
 		</small></div>
-		<h2 style="margin: 10px 10px 10px 0px; color: white;">{{ news.title }}</h2>
+		<h2 style="margin: 10px 10px 10px 0px;">{{ news.title }}</h2>
 		{% if news.short %}{{ news.short }}{% endif %}
 	</div>
 	<p class="pull-right" style="padding: 0px; margin: 0px;">
@@ -23,20 +23,9 @@
 	</p>
 </div>
 {{ news.description | safe }}
-
-{% for comment in news.comments.all %}
-<div class="well" style="margin-left: 10px; padding: 10px;">
-	<div class="pull-right">
-		<small>By {{ comment.reporter }} on {{ comment.created_date }}</small>
-		<br/>
-		<div align="right">
-			<small>rating</small>
-		</div>
-	</div>
-	<h3 style="margin: 0px;">{{ comment.title }}</h3>
-	{{ comment.description | safe }}
-</div>
-{% endfor %}
+[<a href="{% url 'news' news.pk %}">Read more... {{ news.comments.count }} Comments</a>]
+<br/>
+<br/>
 {% endfor %}
 
 {% endblock %}
