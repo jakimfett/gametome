@@ -1,0 +1,14 @@
+{{ object.title }}
+{{ object.version }}
+{{ object.short }}
+{{ object.description | safe}}
+{{ object.reporter.name }}
+{{ object.created_date }}
+{{ object.cost }}
+{% for tag in object.tags.all %} {{tag}}{% endfor %}
+{% for comment in object.comments.all %}
+{{ comment.title }}
+{{ comment.description | safe }}
+{{ comment.reporter.name }}
+{{ comment.created_date }}
+{% endfor %}

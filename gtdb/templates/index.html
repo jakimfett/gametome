@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head_title %}HP-TLGT{% endblock %}
+
+{% block body %}
+<h1 align="center">News</h1>
+
+{% for news in news_list %}
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container pull-right"><small>
+			By {{ news.reporter.name }} on {{ news.created_date }}
+			<br/>
+			<div align="right">rating</div>
+		</small></div>
+		<h2 style="margin: 10px 10px 10px 0px;"><a href="{% url 'news' news.pk %}" style="text-decoration: none; color: inherit;">{{ news.title }}</a></h2>
+		{% if news.short %}{{ news.short }}{% endif %}
+	</div>
+	<p class="pull-right" style="padding: 0px; margin: 0px;">
+	{% for tag in news.tags.all %}
+		<span class="label">{{tag}}</span>
+	{% endfor %}
+	</p>
+</div>
+{{ news.description | safe }}
+<br/>
+[<a href="{% url 'news' news.pk %}">Read more... {{ news.comments.count }} Comments</a>]
+<br/>
+<br/>
+{% endfor %}
+
+{% endblock %}

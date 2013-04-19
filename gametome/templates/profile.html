@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block head_title %}Profile{% endblock %}
+
+{% block content %}
+<h1>Profile</h1>
+
+<p>Your profile:</p>
+<ul>
+<li><a href="{% url 'account_email' %}"><i class="icon-envelope"></i> Manage E-mail</a></li>
+<li><a href="{% url 'socialaccount_connections' %}"><i class="icon-comment"></i> Account Connections</a></li> 
+	{% if user.is_staff %}
+	<li><a href="{% url 'admin:index' %}"><i class="icon-wrench"></i> Admin</a></li>
+	{% endif %}
+<li><a href="{% url 'account_logout' %}"><i class="icon-off"></i> Sign Out</a></li>
+</ul>
+{% endblock %}

@@ -1,0 +1,2 @@
+recursive-include gametome/templates *
+recursive-include gametome/static *

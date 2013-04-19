@@ -1,0 +1,55 @@
+*.py[co]
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+#Translations
+*.mo
+
+#Mr Developer
+.mr.developer.cfg
+
+# Temporrary files
+*.bak
+*~
+*.kate-swp
+.~*
+
+# Pydev
+.project
+.pydevproject
+
+# Komodo
+*.komodoproject
+
+# default db
+default.db
+default.db-journal
+
+# local_settings.py
+local_settings.py
+gtdb/fixtures/
+
+#Pycache
+__pycache__
+data
+
+# Whoosh
+whoosh_index
