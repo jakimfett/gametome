@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block head_title %}News - {{ news.title }}{% endblock %}
+
+{% block body %}
+
+<div class="navbar">
+	<div class="navbar-inner">
+		<div class="container pull-right"><small>
+			By {{ news.reporter.name }} on {{ news.created_date }}
+			<br/>
+			<div align="right">rating</div>
+		</small></div>
+		<h2 style="margin: 10px 10px 10px 0px;">{{ news.title }}</h2>
+		{% if news.short %}{{ news.short }}{% endif %}
+	</div>
+	<p class="pull-right" style="padding: 0px; margin: 0px;">
+	{% for tag in news.tags.all %}
+		<span class="label">{{tag}}</span>
+	{% endfor %}
+	</p>
+</div>
+{{ news.description | safe }}
+<br/>
+{% for comment in news.comments.all %}
+<div class="well" style="margin-left: 10px; padding: 10px;">
+	<div class="pull-right">
+		<small>By {{ comment.reporter.name }} on {{ comment.created_date }}</small>
+		<br/>
+		<div align="right">
+			<small>rating</small>
+		</div>
+	</div>
+	<h3 style="margin: 0px;">{{ comment.title }}</h3>
+	{{ comment.description | safe }}
+</div>
+{% endfor %}
+
+{% endblock %}
