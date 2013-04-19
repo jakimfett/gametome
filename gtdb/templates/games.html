@@ -13,7 +13,7 @@
 			<br/>
 			<div align="right">rating</div>
 		</small></div>
-		<h2 style="margin: 10px 10px 10px 0px;">{{ game.title }}</h2>
+		<h2 style="margin: 10px 10px 10px 0px;"><a href="{% url 'game' game.pk %}" style="text-decoration: none; color: inherit;">{{ game.title }}</a></h2>
 		{% if game.short %}{{ game.short }}{% endif %}
 	</div>
 	<p class="pull-right" style="padding: 0px; margin: 0px;">

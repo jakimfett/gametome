@@ -22,6 +22,8 @@ setup(
         'django-taggit',
         'django-allauth >=0.10',
         'html5lib',
+        'django-haystack',
+        'Whoosh',
     ],
     dependency_links = [
     ],

@@ -116,6 +116,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     
     # 3rd Party apps
+    'haystack',
     'taggit',
     'ckeditor',
     
@@ -138,6 +139,11 @@ INSTALLED_APPS = (
     #'gtdb2',
     
 )
+
+HAYSTACK_SITECONF = 'gametome.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'simple'
+#HAYSTACK_SEARCH_ENGINE = 'whoosh'
+#HAYSTACK_WHOOSH_PATH = normpath(join(PROJECT_ROOT, 'whoosh_index')),
 
 CKEDITOR_UPLOAD_PATH = "/tmp"
 

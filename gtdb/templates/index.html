@@ -13,7 +13,7 @@
 			<br/>
 			<div align="right">rating</div>
 		</small></div>
-		<h2 style="margin: 10px 10px 10px 0px;">{{ news.title }}</h2>
+		<h2 style="margin: 10px 10px 10px 0px;"><a href="{% url 'news' news.pk %}" style="text-decoration: none; color: inherit;">{{ news.title }}</a></h2>
 		{% if news.short %}{{ news.short }}{% endif %}
 	</div>
 	<p class="pull-right" style="padding: 0px; margin: 0px;">
@@ -23,6 +23,7 @@
 	</p>
 </div>
 {{ news.description | safe }}
+<br/>
 [<a href="{% url 'news' news.pk %}">Read more... {{ news.comments.count }} Comments</a>]
 <br/>
 <br/>
